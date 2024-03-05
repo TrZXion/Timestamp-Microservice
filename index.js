@@ -40,16 +40,16 @@ app.get("/api/:date?", (req, res) => {
 
   if (regexPattern2.test(date_string)) {
     var utc = new Date(Number(date_string)).toUTCString();
-    return res.json({ "unix": Number(date_string), utc: utc });
-  } 
-  else if (regexPattern1.test(date_string)) 
-  {
+    return res.json({ unix: Number(date_string), utc: utc });
+  } else if (regexPattern1.test(date_string)) {
     var unix = new Date(String(date_string)).getTime();
     var utc = new Date(String(date_string)).toUTCString();
     return res.json({ unix: unix, utc: utc });
-  } 
-  else 
-  {
+  } else if (date_string.includes(",")) {
+    unix = new Date(date_string).getTime();
+    utc = new Date(date_string).toUTCString();
+    return res.json({ unix: unix, utc: utc });
+  } else {
     res.json({ error: "Invalid Date" });
   }
 });
@@ -59,9 +59,7 @@ var listener = app.listen(process.env.PORT || 3000, function () {
   console.log("Your app is listening on port " + listener.address().port);
 });
 
-
-
-date_string=1451001600000;
-var unix = date_string;
-var utc = new Date(Number(date_string)).toUTCString();
-console.log(utc);
+// date_string = "02 01 1970";
+// unix = new Date(date_string).getTime();
+// date = new Date(date_string).toUTCString();
+// console.log(JSON.stringify({unix:unix,date:date}));
