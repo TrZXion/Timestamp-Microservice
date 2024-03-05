@@ -26,7 +26,7 @@ app.get("/api/hello", function (req, res) {
   res.json({ greeting: "hello API" });
 });
 
-app.get("/api/:date?", (req, res) => {
+app.get("/api/date?", (req, res) => {
   const regexPattern1 = /\d{4}-\d{2}-\d{2}/;
   const regexPattern2 = /\d{10}$|\d{13}$/;
   const date_string = req.params.date;
