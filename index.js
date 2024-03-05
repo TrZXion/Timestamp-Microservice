@@ -33,33 +33,23 @@ app.get("/api/:date?", (req, res) => {
 
   // Check if date parameter is empty
   if (!date_string) {
-    var unix = Math.floor(new Date().getTime());
-    var myDate = new Date(unix);
-    var formattedDate = new Date(myDate).toUTCString();
-    var utc = formattedDate.toString();
+    var unix = new Date().getTime();
+    var utc = new Date().toUTCString();
     return res.json({ unix: unix, utc: utc });
-  }
-
-  // Check if the date string matches any of the expected formats
-  if (!regexPattern1.test(date_string) && !regexPattern2.test(date_string)) {
-    return res.json({ error: "Invalid Date" });
   }
 
   if (regexPattern2.test(date_string)) {
-    var unix = Number(date_string);
-    var myDate = new Date(unix);
-    var formattedDate = new Date(myDate).toUTCString();
-    var utc = formattedDate.toString();
-
+    var utc = new Date(Number(date_string)).toUTCString();
+    return res.json({ "unix": Number(date_string), utc: utc });
+  } 
+  else if (regexPattern1.test(date_string)) 
+  {
+    var unix = new Date(String(date_string)).getTime();
+    var utc = new Date(String(date_string)).toUTCString();
     return res.json({ unix: unix, utc: utc });
-  } else if (regexPattern1.test(date_string)) {
-    var utcOld = String(date_string);
-    var unix = Math.floor(new Date(utcOld).getTime());
-    var myDate = new Date(unix);
-    var utc = new Date(myDate).toUTCString();
-    // var utc = formattedDate.toString();
-    return res.json({ unix: unix, utc: utc });
-  } else {
+  } 
+  else 
+  {
     res.json({ error: "Invalid Date" });
   }
 });
@@ -69,8 +59,9 @@ var listener = app.listen(process.env.PORT || 3000, function () {
   console.log("Your app is listening on port " + listener.address().port);
 });
 
-// var unix = Math.floor(new Date().getTime());
-// var myDate = new Date(unix);
-// var formattedDate = new Date(myDate).toUTCString();
-// var utc = formattedDate.toString();
-// console.log(unix);
+
+
+date_string=1451001600000;
+var unix = date_string;
+var utc = new Date(Number(date_string)).toUTCString();
+console.log(utc);
