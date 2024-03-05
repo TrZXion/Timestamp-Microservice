@@ -51,8 +51,8 @@ app.get("/api/:date?", (req, res) => {
     var utcOld = String(date_string);
     var unix = Math.floor(new Date(utcOld).getTime());
     var myDate = new Date(unix);
-    var formattedDate = new Date(myDate).toUTCString();
-    var utc = formattedDate.toString();
+    var utc = new Date(myDate).toUTCString();
+    // var utc = formattedDate.toString();
     return res.json({ unix: unix, utc: utc });
   } else {
     res.json({ error: "Invalid Date" });
