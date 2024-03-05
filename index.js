@@ -26,7 +26,7 @@ app.get("/api/hello", function (req, res) {
   res.json({ greeting: "hello API" });
 });
 
-app.get("/api/date?", (req, res) => {
+app.get("/api/:date?", (req, res) => {
   const regexPattern1 = /\d{4}-\d{2}-\d{2}/;
   const regexPattern2 = /\d{10}$|\d{13}$/;
   const date_string = req.params.date;
@@ -38,6 +38,11 @@ app.get("/api/date?", (req, res) => {
     var formattedDate = new Date(myDate).toUTCString();
     var utc = formattedDate.toString();
     return res.json({ unix: unix, utc: utc });
+  }
+
+  // Check if the date string matches any of the expected formats
+  if (!regexPattern1.test(date_string) && !regexPattern2.test(date_string)) {
+    return res.json({ error: "Invalid Date" });
   }
 
   if (regexPattern2.test(date_string)) {
